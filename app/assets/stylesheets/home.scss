@@ -3,4 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 section {
   @include linear-gradient(to top, red, orange);
+  @include outer-container;
+  article {
+    @include span-columns(6);
+  }
 }
