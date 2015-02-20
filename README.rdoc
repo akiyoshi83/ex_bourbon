@@ -1,28 +1,16 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Example of Bourbon, Neat, Bitters, and Refills.
 
-Things you may want to cover:
+* Bourbon http://bourbon.io/
+  * Mixin library for Sass
+* Neat http://neat.bourbon.io/
+  * Grid framework for Sass and Bourbon
+* Bitters http://bitters.bourbon.io/
+  * Bootstrap for Bourbon
+* Refills http://refills.bourbon.io/
+  * Snippets for Bourbon and Neat
 
-* Ruby version
+=== Ruby version
+2.2.0
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
