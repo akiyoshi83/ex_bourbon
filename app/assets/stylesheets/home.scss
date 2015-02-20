@@ -3,10 +3,159 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'refills/footer';
 
-section {
+// モバイルのブレイクポイントを設定
+// 480px以下では最大4カラムとする
+$mobile: new-breakpoint(max-width 480px 4);
+
+* {
+  @include box-sizing(border-box);
+}
+
+header {
+  $header-padding: 16px;
+  $header-fg-color: white;
+  $header-fg-light-color: darken($header-fg-color, 20%);
+  $header-bg-color: black;
+  $header-bg-light-color: lighten($header-bg-color, 30%);
+
+  // メニュー項目のスタイル
+  @mixin list-item {
+    // 伸縮なし固定幅
+    @include flex(0 0 4em);
+    a {
+      // リンクを目一杯拡げてセンタリング
+      @include display(block);
+      padding: $header-padding 0;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      &:hover {
+        color: $header-fg-color;
+        background-color: $header-bg-light-color;
+      }
+    }
+  }
+
+  background-color: $header-bg-color;
+  color: $header-fg-color;
+  padding: 0;
+  margin-bottom: 1em;
+  a {
+    &:link, &:visited { color: $header-fg-color; }
+    &:hover, &:active { color: $header-fg-light-color; }
+  }
+
+  // flexible-box指定
+  @include display(flex);
+
+  // タイトル
+  > h1 {
+    margin: 0;
+    padding: $header-padding;
+    line-height: 1.5;
+    // 伸縮なし固定幅
+    @include flex(0 0 20%);
+  }
+
+  // ナビゲーション
+  > nav {
+    @include flex(1 0);
+    padding: 0 $header-padding;
+    // モバイルのみのトグルボタン
+    .toggle-menu {
+      @include list-item;
+      display: none;
+    }
+    ul {
+      // ナビゲーションの中身もflexible-box
+      @include display(flex);
+      // 右寄せ
+      @include justify-content(flex-end);
+      li {
+        @include list-item;
+      }
+    }
+    // モバイルの場合
+    @include media($mobile) {
+      // トグルボタンとメニューを縦に並べる
+      @include display(flex);
+      @include flex-direction(column);
+      // 右寄せ
+      @include align-items(flex-end);
+      .toggle-menu {
+        @include display(block);
+        @include flex(1);
+        width: 4em;
+      }
+      ul {
+        @include flex-direction(column);
+        @include display(none);
+        width: 100%;
+        &.open {
+          @include display(flex);
+        }
+        li {
+          @include flex(1);
+          a {
+            // 微調整
+            text-align: right;
+            padding-right: 0.5em;
+          }
+        }
+      }
+    }
+  }
+}
+
+.main {
+  // グリッドの大枠
   @include outer-container;
-  article {
-    @include linear-gradient(to top, red, orange);
+
+  // グリッドの各カラム
+  > article {
+    // 12カラム / 2列
     @include span-columns(6);
+    // 折り返しの列にはomegaで余白を消してあげる必要があるっぽい
+    &:nth-child(2n) {
+      // omegaはドキュメントには"Removes the element's gutter margin"と書いてある
+      // omega = 最後の文字だから？？
+      @include omega();
+    }
+
+    // モバイルの場合
+    @include media($mobile) {
+      // 親いっぱいに広げる
+      @include fill-parent();
+      // モバイルは4カラムに指定しているので下記でも同じ
+      //@include span-columns(4);
+    }
+
+    // 記事の単位を見分けやすいよう調整
+    background-color: $light-gray;
+    margin-bottom: 0.5em;
+    padding: 0.4em;
+
+    // ネストした記事
+    > article {
+      // 更に2列に分ける
+      @include span-columns(3 of 6);
+      // モバイル時は1列にする
+      @include media($mobile) {
+        @include fill-parent();
+      }
+      background-color: darken($light-gray, 10%);
+    }
+
+    // サムネイルは普通
+    .thumbnail {
+      img {
+        float: left;
+        width: 50%;
+        margin-right: 1em;
+      }
+      p {
+        @include clearfix;
+      }
+    }
   }
 }
